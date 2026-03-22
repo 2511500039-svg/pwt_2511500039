@@ -1,7 +1,6 @@
 <?php
 session_start();
-require_once "config/koneksi.php"; // pastikan file ini ada di folder config
-
+require_once __DIR__ . "/config/koneksi.php";
 if(isset($_SESSION['Username'])){
 ?>
 
