@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    require_once ("config/koneksi.php");
+    if(isset($_SESSION['Username'])){
+?>
+
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -285,3 +291,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="dist/js/adminlte.min.js"></script>
 </body>
 </html>
+<?php
+    }else{
+      echo"<meta http-equiv='refresh' content='0 url  =login.php'>";
+    }
+?>
+        
