@@ -27,10 +27,10 @@ session_start();
 <div class="card-body login-card-body">
 <p class="login-box-msg">Sign in to start your session</p>
 
-<form action="#" method="post">
+<form action="" method="post">
 
 <div class="input-group mb-3">
-<input type="text" name="Username" id="Username" class="form-control" placeholder="Username">
+<input type="text" name="Username" id="Username" class="form-control" placeholder="Username" required>
 <div class="input-group-append">
 <div class="input-group-text">
 <span class="fas fa-envelope"></span>
@@ -39,7 +39,7 @@ session_start();
 </div>
 
 <div class="input-group mb-3">
-<input type="password" name="Password" id="Password" class="form-control" placeholder="Password">
+<input type="password" name="Password" id="Password" class="form-control" placeholder="Password" required>
 <div class="input-group-append">
 <div class="input-group-text">
 <span class="fas fa-lock"></span>
@@ -56,26 +56,32 @@ session_start();
 </form>
 
 <?php
-if(isset($_POST['Username'])) {
+if(isset($_POST['Username']) && isset($_POST['Password'])) {
     $Username = $_POST['Username'];
     $Password = $_POST['Password'];
 
     if(empty($Username) || empty($Password)) {
-        echo "Data Tidak Boleh kosong";
+        echo '<div class="alert alert-warning">Data Tidak Boleh kosong</div>';
     } else {
-        $userquery = mysqli_fetch_array(mysqli_query($koneksi,
-        "SELECT * FROM admin WHERE Username = '$Username' AND Password = '$Password'"));
-
-        if($userquery) {
-            $_SESSION['level'] = 'admin';
-            $_SESSION['Username'] = $Username;
-            header("location:index.php");
+        // Query login
+        $query = mysqli_query($koneksi, "SELECT * FROM users WHERE username='$Username' AND password='$Password' AND role='admin'");
+        
+        if($query) {
+            $user = mysqli_fetch_array($query);
+            if($user) {
+                $_SESSION['level'] = $user['role'];
+                $_SESSION['Username'] = $user['username'];
+                header("Location: index.php");
+                exit();
+            } else {
+                echo '<div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                Username atau Password salah
+                </div>';
+            }
         } else {
-            echo '<div class="alert alert-danger alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <h5><i class="icon fas fa-ban"></i> Alert!</h5>
-            Login gagal
-            </div>';
+            echo "Query gagal: " . mysqli_error($koneksi);
         }
     }
 }
