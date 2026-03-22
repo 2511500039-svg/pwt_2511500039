@@ -1,13 +1,15 @@
 <?php
-    $db_host = "localhost";
-    $db_user = "root";
-    $db_pass = "";
-    $db_name = "jadwalguru";
+// Konfigurasi database
+$db_host = "localhost"; // host database
+$db_user = "root";      // username database
+$db_pass = "";          // password database
+$db_name = "jadwalguru"; // nama database
 
-    $koneksi = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
+// Membuat koneksi
+$koneksi = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 
-    if(mysqli_connect_errno()){
-        echo "gagal melakukan koneksi ke database : " . mysqli_connect_error(
-            );
-    }
+// Cek koneksi
+if (!$koneksi) {
+    die("Gagal melakukan koneksi ke database: " . mysqli_connect_error());
+}
 ?>
