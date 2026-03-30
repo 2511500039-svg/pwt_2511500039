@@ -234,7 +234,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <h5 class="card-title">Dashboard</h5>
 
                 <p class="card-text">
-                  Halo sayang
+                  Pantang menyerah, walau sudah tahu pasti akan kalah.
                 </p>
                 
               </div>
