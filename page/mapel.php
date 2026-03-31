@@ -9,59 +9,63 @@
 </div>
 
 <?php
-if(isset($_GET['action'])) {
-    if($_GET['action'] == "hapus") {
-        $kd =$_GET['kd'];
+if (isset($_GET['action'])) {
+    if ($_GET['action'] == "hapus") {
+        $kd = $_GET['kd'];
         $query = mysqli_query($koneksi, "DELETE FROM mapel WHERE kd_mapel ='$kd'");
         if ($query) {
-            echo "div class="alert alert-warning alert-dismissible">
-            Berhasil Di Hapus
-            </div>";
-        echo "<meta http-equiv="refresh" content=1;url=index.php?page=mapel">";
+            echo "<div class='alert alert-warning alert-dismissible'>
+                    Berhasil Di Hapus
+                  </div>";
+            echo "<meta http-equiv='refresh' content='1;url=index.php?page=mapel'>";
         }
     }
 }
 ?>
+
 <div class="content">
-<div class="container-fluid">
-    <div class="card">
-        <div class="card-body">
-                    <a href="index.php?page=tambah_mapel" class="btn btn-primary btn-sm">Tambah Mapel</a>
-                    <table class="table table-striped">
-                        <tread>
-                            <tr>
-                                <th>No</th>
-                                <th>Kode Mapel</th>
-                                <th>Nama Mapel</th>
-                                <th>KKM</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-<?php
-$no = 0;
-$query = mysqli_query($koneksi, "SELECT * FROM mapel");
-while ($result = mysqli_fetch_array($query)) {
- $no++;
- ?>
- <tbody>
-     <tr>
-         <td><?php echo $no; ?></td>
-         <td><?php echo $result['kd_mapel']; ?></td>
-         <td><?php echo $result['nama_mapel']; ?></td>
-         <td><?php echo $result['kkm']; ?></td>
-         <td>
-             <a href="index.php?page=edit_mapel&kd=<?= $result["kd_mapel"]; ?>" tittle
-             =""><span class
-              ="badge badge-warning">Edit</span></a>
-             <a href="index.php?page=mapel&action=hapus&kd=<?=$result['kd_mapel']
-             ?>" tittle="">
-                <span class="badge badge-danger">Hapus</span></a>
-         </td>
-     </tr>
-    </tbody>
-    <?php } ?>
-                    </table>
-        </div>
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <a href="index.php?page=tambah_mapel" class="btn btn-primary btn-sm">Tambah Mapel</a>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Kode Mapel</th>
+                            <th>Nama Mapel</th>
+                            <th>KKM</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+
+                    <?php
+                    $no = 0;
+                    $query = mysqli_query($koneksi, "SELECT * FROM mapel");
+                    while ($result = mysqli_fetch_array($query)) {
+                        $no++;
+                    ?>
+                    
+                    <tbody>
+                        <tr>
+                            <td><?php echo $no; ?></td>
+                            <td><?php echo $result['kd_mapel']; ?></td>
+                            <td><?php echo $result['nama_mapel']; ?></td>
+                            <td><?php echo $result['kkm']; ?></td>
+                            <td>
+                                <a href="index.php?page=edit_mapel&kd=<?= $result['kd_mapel']; ?>" title="">
+                                    <span class="badge badge-warning">Edit</span>
+                                </a>
+                                <a href="index.php?page=mapel&action=hapus&kd=<?= $result['kd_mapel']; ?>" title="">
+                                    <span class="badge badge-danger">Hapus</span>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                    <?php } ?>
+                </table>
+            </div>
         </div>
     </div>
-    </div>
+</div>
