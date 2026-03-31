@@ -9,7 +9,8 @@
 </div>
 
 <?php
-$kd = $_GET['kd'];
+$kd = isset($_GET['kd']) ? $_GET['kd'] : '';
+
 $edit = mysqli_fetch_array(mysqli_query($koneksi,"SELECT * FROM mapel WHERE kd_mapel='$kd'"));
 
 if(isset($_POST['tambah'])){
@@ -19,7 +20,7 @@ if(isset($_POST['tambah'])){
 
     $insert = mysqli_query($koneksi,"UPDATE mapel SET nm_mapel='$nm_mapel', kkm='$kkm' WHERE kd_mapel='$kd_mapel'");
     if ($insert) {
-        echo '<div class="alert alert-info-dismissible">
+        echo '<div class="alert alert-info alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
         <h5><i class="icon fas fa-info"></i> Info </h5>
         <h4>Berhasil Disimpan</h4></div>';
@@ -32,6 +33,7 @@ if(isset($_POST['tambah'])){
     }
 }
 ?>
+
 <section class="content">
     <div class="container-fluid">
         <div class="card">
@@ -40,15 +42,15 @@ if(isset($_POST['tambah'])){
                     <form method="POST" action="">
 <div class="form-group">
             <label for="kd_mapel">Kode Mapel</label>
-            <input type="text" name="kd_mapel" value="<?= $edit['kd_mapel']; ?>" class="form-control" readonly>
+            <input type="text" name="kd_mapel" value="<?= isset($edit['kd_mapel']) ? $edit['kd_mapel'] : ''; ?>" class="form-control" readonly>
         </div>
             <div class="form-group">
                 <label for="nm_mapel">Nama Mapel</label>
-                <input type="text" name="nm_mapel" value="<?= $edit['nm_mapel']; ?>" id="nm_mapel" placeholder="Nama mapel" class="form-control">
+                <input type="text" name="nm_mapel" value="<?= isset($edit['nm_mapel']) ? $edit['nm_mapel'] : ''; ?>" id="nm_mapel" placeholder="Nama mapel" class="form-control">
             </div>
             <div class="form-group">
                 <label for="kkm">KKM</label>
-                <input type="text" name="kkm" value="<?= $edit['kkm']; ?>" id="kkm" placeholder="KKM" class="form-control">
+                <input type="text" name="kkm" value="<?= isset($edit['kkm']) ? $edit['kkm'] : ''; ?>" id="kkm" placeholder="KKM" class="form-control">
             </div>
                 <div class="card-footer">
                     <input type="submit" class="btn btn-primary" name="tambah" value="Simpan">
