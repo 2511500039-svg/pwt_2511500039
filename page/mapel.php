@@ -60,7 +60,7 @@ if (isset($_GET['action'])) {
                         <tr>
                             <td><?php echo $no; ?></td>
                             <td><?php echo $result['kd_mapel']; ?></td>
-                            <td><?php echo $result['nama_mapel']; ?></td>
+                            <td><?php echo $result['nm_mapel']; ?></td>
                             <td><?php echo $result['kkm']; ?></td>
                             <td>
                                 <a href="index.php?page=edit_mapel&kd=<?= $result['kd_mapel']; ?>" title="">
