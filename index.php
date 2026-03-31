@@ -177,7 +177,22 @@ if (!isset($_SESSION['role'])) {
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title">Dashboard</h5>
-                <p class="card-text">Au ah pusing</p>
+                <p class="card-text">
+                <?php
+                  if (isset($_GET['page'])) {
+                      $page = $_GET['page'];
+                  } else {
+                      $page = "";
+                  }
+                  if ($page == "") {
+                      include "page/dashboard.php";
+                  } elseif (!file_exists("page/$page.php")) {
+                      echo "File Tidak Ditemukan";
+                  } else {
+                    include "page/$page.php";
+                  }
+                  ?>
+                </p>
               </div>
             </div>
           </div>
