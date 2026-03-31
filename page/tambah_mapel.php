@@ -9,7 +9,7 @@
 </div>
 <?php
 //kode ootmtis
-$carikode = mysqli_query($koneksi,"select max(kd_mapel) from mapel") or die ( mysqli_error());
+$carikode = mysqli_query($koneksi,"select max(kd_mapel) from mapel") or die ( mysqli_error($koneksi));
 $datakode = mysqli_fetch_array($carikode);
 if($datakode) {
     $nilaikode = substr($datakode[0], 2);
@@ -27,14 +27,14 @@ if(isset($_POST['tambah'])){
     $insert = mysqli_query($koneksi,"INSERT INTO mapel values ('$kd_mapel','$nm_mapel','$kkm')");
     if ($insert) {
         echo "<div class='alert alert-info-dismissible'>
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-        <h5><i class="icon fas fa-info"></i> Info </h5>
+        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button>
+        <h5><i class='icon fas fa-info'></i> Info </h5>
         <h4>Berhasil Disimpan</h4></div>";
         echo "<meta http-equiv='refresh' content='1;url=index.php?page=mapel'>";
     }else{
         echo "<div class='alert alert-warning alert-dismissible'>
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-        <h5><i class="icon fas fa-info"></i> Info </h5>
+        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button>
+        <h5><i class='icon fas fa-info'></i> Info </h5>
         <h4>Gagal Disimpan</h4></div>";
     }
 }
