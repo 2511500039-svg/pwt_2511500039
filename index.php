@@ -121,7 +121,7 @@ if (!isset($_SESSION['role'])) {
             <ul class="nav nav-treeview">
               <li class="nav-item"><a href="guru.php" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Guru</p></a></li>
               <li class="nav-item"><a href="siswa.php" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Siswa</p></a></li>
-              <li class="nav-item"><a href="mata_pelajaran.php" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Mata Pelajaran</p></a></li>
+              <li class="nav-item"><a href="index.php?page=mapel"  class="nav-link active"><i class="far fa-circle nav-icon"></i><p>Mata Pelajaran</p></a></li>
               <li class="nav-item"><a href="kelas.php" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Kelas</p></a></li>
             </ul>
             <?php endif; ?>
