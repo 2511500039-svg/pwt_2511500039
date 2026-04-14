@@ -22,9 +22,8 @@ $_SESSION['KODE'] = $hasilkode;
 if(isset($_POST['tambah'])){
     $id_kelas = $_POST['id_kelas'];
     $nm_kelas = $_POST['nm_kelas'];
-    $kkm = $_POST['kkm'];
-
-    $insert = mysqli_query($koneksi,"INSERT INTO kelas values ('$id_kelas','$nm_kelas','$kkm')");
+    
+    $insert = mysqli_query($koneksi,"INSERT INTO kelas values ('$id_kelas','$nm_kelas')");
     if ($insert) {
         echo "<div class='alert alert-info-dismissible'>
         <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button>
@@ -46,12 +45,12 @@ if(isset($_POST['tambah'])){
                 <div class="card-body p-2">
                     <form method="POST" action="">
                         <div class="form-group">
-                            <label for="nm_kelas">Nama Kelas</label>
-                            <input type="text" name="nm_kelas" id="nm_kelas" placeholder="Nama Kelas" class="form-control">
-                        </div>
-                        <div class="form-group">
                             <label for="id_kelas">Id Kelas</label>
                             <input type="text" name="id_kelas" id="id_kelas" placeholder="Id Kelas" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="nm_kelas">Nama Kelas</label>
+                            <input type="text" name="nm_kelas" id="nm_kelas" placeholder="Nama Kelas" class="form-control">
                         </div>
                         <div class="card-footer">
                             <input type="submit" class="btn btn-primary" name="tambah" value="Simpan">
