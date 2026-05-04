@@ -9,96 +9,83 @@
 </div>
 
 <?php
-$nis = $_GET['nis'];
-$query = mysqli_query($koneksi, "SELECT * FROM siswa WHERE Nis = '$nis'");
+$nis = isset($_GET['nis']) ? $_GET['nis'] : '';
+
+$query = mysqli_query($koneksi, "SELECT * FROM siswa WHERE nis = '$nis'");
 $data = mysqli_fetch_array($query);
 
-if(!$data) {
-    echo '<div class="alert alert-danger">Data tidak ditemukan</div>';
-    echo '<script>setTimeout(function(){ window.location="index.php?page=siswa"; }, 1000);</script>';
+if(!$data){
+    echo "<div class='alert alert-danger'>Data tidak ditemukan</div>";
     exit;
 }
 
-// Ambil data kelas untuk dropdown
-$query_kelas = mysqli_query($koneksi, "SELECT * FROM kelas ORDER BY nm_kelas ASC");
-
-// Proses update data siswa
 if(isset($_POST['edit'])){
-    $nm_siswa = mysqli_real_escape_string($koneksi, $_POST['nm_siswa']);
-    $jenkel = mysqli_real_escape_string($koneksi, $_POST['jenkel']);
-    $hp = mysqli_real_escape_string($koneksi, $_POST['hp']);
-    $id_kelas = mysqli_real_escape_string($koneksi, $_POST['id_kelas']);
-    
-    $update = mysqli_query($koneksi, "UPDATE siswa SET 
-                                        Nm_siswa = '$nm_siswa',
-                                        Jenkel = '$jenkel',
-                                        Hp = '$hp',
-                                        Id_kelas = '$id_kelas'
-                                      WHERE Nis = '$nis'");
-    
-    if ($update){
-        echo '<div class="alert alert-success alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <h5><i class="icon fas fa-check"></i> Sukses!</h5>
-            Data Berhasil Diupdate
-        </div>';
-        echo '<script>setTimeout(function(){ window.location="index.php?page=siswa"; }, 1000);</script>';
+
+    $nm_siswa = $_POST['nm_siswa'];
+    $jenkel = $_POST['jenkel'];
+    $hp = $_POST['hp'];
+    $kelas = $_POST['kelas'];
+
+    $update = mysqli_query($koneksi, "
+        UPDATE siswa SET 
+        nm_siswa='$nm_siswa',
+        jenkel='$jenkel',
+        hp='$hp',
+        kelas='$kelas'
+        WHERE nis='$nis'
+    ");
+
+    if($update){
+        echo "<div class='alert alert-success'>Berhasil update</div>";
+        echo "<meta http-equiv='refresh' content='1;url=index.php?page=siswa'>";
     } else {
-        echo '<div class="alert alert-danger alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <h5><i class="icon fas fa-ban"></i> Gagal!</h5>
-            Data Gagal Diupdate: '.mysqli_error($koneksi).'
-        </div>';
+        echo mysqli_error($koneksi);
     }
 }
 ?>
 
 <section class="content">
-    <div class="container-fluid">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Edit data siswa ✏️</h3>
-            </div>
-            <div class="card-body p-2">
-                <form method="POST" action="">
-                    <div class="form-group">
-                        <label for="nis">NIS</label>
-                        <input type="text" name="nis" value="<?= $data['Nis']; ?>" class="form-control" readonly>
-                        <small class="text-muted">NIS tidak dapat diubah</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="nm_siswa">Nama Siswa</label>
-                        <input type="text" name="nm_siswa" id="nm_siswa" value="<?= $data['Nm_siswa']; ?>" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="jenkel">Jenis Kelamin</label>
-                        <select name="jenkel" id="jenkel" class="form-control" required>
-                            <option value="">-- Pilih Jenis Kelamin --</option>
-                            <option value="Laki-laki" <?= ($data['Jenkel'] == 'Laki-laki') ? 'selected' : ''; ?>>Laki-laki</option>
-                            <option value="Perempuan" <?= ($data['Jenkel'] == 'Perempuan') ? 'selected' : ''; ?>>Perempuan</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="hp">Nomor HP</label>
-                        <input type="text" name="hp" id="hp" value="<?= $data['Hp']; ?>" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="id_kelas">Kelas</label>
-                        <select name="id_kelas" id="id_kelas" class="form-control">
-                            <option value="">-- Pilih Kelas --</option>
-                            <?php while($kelas = mysqli_fetch_array($query_kelas)) { ?>
-                                <option value="<?= $kelas['kd_kelas']; ?>" <?= ($data['Id_kelas'] == $kelas['kd_kelas']) ? 'selected' : ''; ?>>
-                                    <?= $kelas['nm_kelas']; ?>
-                                </option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <div class="card-footer">
-                        <input type="submit" class="btn btn-primary" name="edit" value="Update">
-                        <a href="index.php?page=siswa" class="btn btn-default">Kembali</a>
-                    </div>
-                </form>
-            </div>
-        </div>
+<div class="container-fluid">
+<div class="card">
+<div class="card-body">
+
+<form method="POST">
+
+    <div class="form-group">
+        <label>NIS</label>
+        <input type="text" value="<?= $data['nis'] ?>" class="form-control" readonly>
     </div>
+
+    <div class="form-group">
+        <label>Nama Siswa</label>
+        <input type="text" name="nm_siswa" value="<?= $data['nm_siswa'] ?>" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label>Jenis Kelamin</label>
+        <select name="jenkel" class="form-control">
+            <option value="Laki-laki" <?= ($data['jenkel']=="Laki-laki")?"selected":""; ?>>Laki-laki</option>
+            <option value="Perempuan" <?= ($data['jenkel']=="Perempuan")?"selected":""; ?>>Perempuan</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>HP</label>
+        <input type="text" name="hp" value="<?= $data['hp'] ?>" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label>Kelas</label>
+        <input type="text" name="kelas" value="<?= $data['kelas'] ?>" class="form-control">
+    </div>
+
+    <button type="submit" name="edit" class="btn btn-primary">
+        Update
+    </button>
+
+</form>
+
+</div>
+</div>
+</div>
 </section>

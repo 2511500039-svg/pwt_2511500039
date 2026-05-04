@@ -9,25 +9,17 @@
 </div>
 
 <?php
-// Proses hapus data siswa
-if(isset($_GET['action'])) {
-    if($_GET['action'] == "hapus") {
-        $nis = $_GET['nis'];
-        $query = mysqli_query($koneksi, "DELETE FROM siswa WHERE Nis = '$nis'");
-        if ($query){
-            echo '
-            <div class="alert alert-warning alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <i class="icon fas fa-trash"></i> Data Berhasil Dihapus
-            </div>';
-            echo '<meta http-equiv="refresh" content="1;url=index.php?page=siswa">';
-        } else {
-            echo '
-            <div class="alert alert-danger alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <i class="icon fas fa-ban"></i> Gagal Menghapus Data: '.mysqli_error($koneksi).'
-            </div>';
-        }
+// HAPUS DATA
+if(isset($_GET['action']) && $_GET['action'] == "hapus") {
+    $nis = $_GET['nis'];
+
+    $hapus = mysqli_query($koneksi, "DELETE FROM siswa WHERE nis='$nis'");
+
+    if($hapus){
+        echo "<div class='alert alert-warning'>Data berhasil dihapus</div>";
+        echo "<meta http-equiv='refresh' content='1;url=index.php?page=siswa'>";
+    } else {
+        echo "<div class='alert alert-danger'>".mysqli_error($koneksi)."</div>";
     }
 }
 ?>
@@ -38,58 +30,51 @@ if(isset($_GET['action'])) {
             <div class="card-header">
                 <h3 class="card-title">Daftar Siswa</h3>
             </div>
+
             <div class="card-body">
                 <a href="index.php?page=tambah_siswa" class="btn btn-primary btn-sm mb-3">Tambah Siswa</a>
-                <table class="table table-striped table-bordered">
-                    <thead class="thead-dark">
+
+                <table class="table table-bordered table-striped">
+                    <thead>
                         <tr>
-                            <th>NO</th>
+                            <th>No</th>
                             <th>NIS</th>
-                            <th>Nama Siswa</th>
-                            <th>Jenis Kelamin</th>
+                            <th>Nama</th>
+                            <th>JK</th>
                             <th>HP</th>
+                            <th>Kelas</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <?php
-                        $no = 0;
-                        $query = mysqli_query($koneksi, "SELECT * FROM siswa ORDER BY Nis ASC");
 
-                        if (!$query) {
-                            echo '<tr><td colspan="6" class="text-center text-danger">Query Error: '.mysqli_error($koneksi).'</td></tr>';
-                        } else if(mysqli_num_rows($query) > 0) {
-                            while ($result = mysqli_fetch_array($query)) {
-                                $no++;
-                        ?>
-                            <tr>
-                                <td><?= $no; ?></td>
-                                <td><?= $result['Nis']; ?></td>
-                                <td><?= $result['Nm_siswa']; ?></td>
-                                <td><?= $result['Jenkel']; ?></td>
-                                <td><?= $result['Hp']; ?></td>
-                                <td>
-                                    <a href="index.php?page=siswa&action=hapus&nis=<?= $result['Nis'] ?>" 
-                                       onclick="return confirm('Apakah Anda yakin ingin menghapus siswa <?= $result['Nm_siswa']; ?>?')" 
-                                       title="Hapus">
-                                        <span class="badge badge-danger">Hapus</span>
-                                    </a>
-                                    <a href="index.php?page=edit_siswa&nis=<?= $result['Nis'] ?>" 
-                                       title="Edit">
-                                        <span class="badge badge-warning">Edit</span>
-                                    </a>
-                                </td>
-                            </tr>
-                        <?php 
-                            }
-                        } else {
-                            echo '
-                            <tr>
-                                <td colspan="6" class="text-center">Belum ada data siswa</td>
-                            </tr>';
-                        }
-                        ?>
+                    <tbody>
+                    <?php
+                    $no = 1;
+
+                    $query = mysqli_query($koneksi, "SELECT * FROM siswa");
+
+                    if(mysqli_num_rows($query) > 0){
+                        while($row = mysqli_fetch_assoc($query)){
+                    ?>
+                        <tr>
+                            <td><?= $no++; ?></td>
+                            <td><?= $row['nis']; ?></td>
+                            <td><?= $row['nm_siswa']; ?></td>
+                            <td><?= $row['jenkel']; ?></td>
+                            <td><?= $row['hp']; ?></td>
+                            <td><?= $row['kelas']; ?></td>
+                            <td>
+                                <a href="index.php?page=siswa&action=hapus&nis=<?= $row['nis']; ?>" class="badge badge-danger">Hapus</a>
+                                <a href="index.php?page=edit_siswa&nis=<?= $row['nis']; ?>" class="badge badge-warning">Edit</a>
+                            </td>
+                        </tr>
+                    <?php }} else { ?>
+                        <tr>
+                            <td colspan="7" class="text-center">Data kosong</td>
+                        </tr>
+                    <?php } ?>
                     </tbody>
+
                 </table>
             </div>
         </div>
