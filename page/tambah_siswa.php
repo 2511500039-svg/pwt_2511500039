@@ -61,7 +61,6 @@ if(isset($_POST['tambah'])){
                     <div class="form-group">
                         <label for="nis">NIS</label>
                         <input type="text" name="nis" id="nis" placeholder="Contoh: 2024001" class="form-control" required autofocus>
-                        <small class="text-muted">Nomor Induk Siswa (10 digit maksimal)</small>
                     </div>
                     <div class="form-group">
                         <label for="nm_siswa">Nama Siswa</label>

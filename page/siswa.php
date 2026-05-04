@@ -48,18 +48,17 @@ if(isset($_GET['action'])) {
                             <th>Nama Siswa</th>
                             <th>Jenis Kelamin</th>
                             <th>HP</th>
-                            <th>Kelas</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         $no = 0;
-                        $query = mysqli_query($koneksi, "SELECT siswa.*, kelas.nm_kelas 
-                                                         FROM siswa 
-                                                         LEFT JOIN kelas ON siswa.Id_kelas = kelas.kd_kelas 
-                                                         ORDER BY siswa.Nis ASC");
-                        if(mysqli_num_rows($query) > 0) {
+                        $query = mysqli_query($koneksi, "SELECT * FROM siswa ORDER BY Nis ASC");
+
+                        if (!$query) {
+                            echo '<tr><td colspan="6" class="text-center text-danger">Query Error: '.mysqli_error($koneksi).'</td></tr>';
+                        } else if(mysqli_num_rows($query) > 0) {
                             while ($result = mysqli_fetch_array($query)) {
                                 $no++;
                         ?>
@@ -69,7 +68,6 @@ if(isset($_GET['action'])) {
                                 <td><?= $result['Nm_siswa']; ?></td>
                                 <td><?= $result['Jenkel']; ?></td>
                                 <td><?= $result['Hp']; ?></td>
-                                <td><?= $result['nm_kelas'] ? $result['nm_kelas'] : '-'; ?></td>
                                 <td>
                                     <a href="index.php?page=siswa&action=hapus&nis=<?= $result['Nis'] ?>" 
                                        onclick="return confirm('Apakah Anda yakin ingin menghapus siswa <?= $result['Nm_siswa']; ?>?')" 
@@ -87,7 +85,7 @@ if(isset($_GET['action'])) {
                         } else {
                             echo '
                             <tr>
-                                <td colspan="7" class="text-center">Belum ada data siswa</td>
+                                <td colspan="6" class="text-center">Belum ada data siswa</td>
                             </tr>';
                         }
                         ?>
