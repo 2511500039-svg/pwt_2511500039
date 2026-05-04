@@ -119,8 +119,8 @@ if (!isset($_SESSION['role'])) {
 
             <?php if ($role == 'admin') : ?>
             <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="guru.php" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Guru</p></a></li>
-              <li class="nav-item"><a href="siswa.php" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Siswa</p></a></li>
+              <li class="nav-item"><a href="index.php?page=guru" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Guru</p></a></li>
+              <li class="nav-item"><a href="index.php?page=siswa" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Siswa</p></a></li>
               <li class="nav-item"><a href="index.php?page=mapel"  class="nav-link active"><i class="far fa-circle nav-icon"></i><p>Mata Pelajaran</p></a></li>
               <li class="nav-item"><a href="index.php?page=kelas"  class="nav-link active"><i class="far fa-circle nav-icon"></i><p>Kelas</p></a></li>
             </ul>
@@ -128,14 +128,14 @@ if (!isset($_SESSION['role'])) {
 
             <?php if ($role == 'guru') : ?>
             <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="guru.php" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Guru</p></a></li>
-              <li class="nav-item"><a href="kelas.php" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Kelas</p></a></li>
+              <li class="nav-item"><a href="index.php?page=guru" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Guru</p></a></li>
+              <li class="nav-item"><a href="index.php?page=kelas" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Kelas</p></a></li>
             </ul>
             <?php endif; ?>
 
             <?php if ($role == 'siswa') : ?>
             <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="siswa.php" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Siswa</p></a></li>
+              <li class="nav-item"><a href="index.php?page=siswa" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Siswa</p></a></li>
             </ul>
             <?php endif; ?>
 
@@ -144,7 +144,7 @@ if (!isset($_SESSION['role'])) {
           <li class="nav-item">
             <a href="#" class="nav-link active"><i class="nav-icon fas fa-tachometer-alt"></i><p>Transaksi<i class="right fas fa-angle-left"></i></p></a>
             <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="jadwal.php" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Jadwal</p></a></li>
+              <li class="nav-item"><a href="index.php?page=jadwal" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Jadwal</p></a></li>
             </ul>
           </li>
 
