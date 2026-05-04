@@ -27,14 +27,14 @@ if(isset($_POST['tambah'])){
     $pend_terakhir = $_POST['pend_terakhir'];
     $hp = $_POST['hp'];
     $alamat = $_POST['alamat'];
-
+    
     $insert = mysqli_query($koneksi,"
-        INSERT INTO guru 
-        (kd_guru, id_users, nm_guru, jenkel, pend_terakhir, no_hp, alamat)
-        VALUES 
-        ('$kd_guru','$id_users','$nm_guru','$jenkel','$pend_terakhir','$hp','$alamat')
+    INSERT INTO guru 
+    (kd_guru, id_users, nm_guru, jenkel, pend_terakhir, hp, alamat)
+    VALUES 
+    ('$kd_guru','$id_users','$nm_guru','$jenkel','$pend_terakhir','$hp','$alamat')
     ");
-}
+
     if ($insert) {
         echo "<div class='alert alert-info-dismissible'>
         <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button>
@@ -47,7 +47,7 @@ if(isset($_POST['tambah'])){
         <h5><i class='icon fas fa-info'></i> Info </h5>
         <h4>Gagal Disimpan</h4></div>";
     }
-
+}
 ?>
 <section class="content">
     <div class="container-fluid">
@@ -57,7 +57,8 @@ if(isset($_POST['tambah'])){
                     <form method="POST" action="">
                         <div class="form-group">
                             <label for="kd_guru">Kd Guru</label>
-                            <input type="text" name="kd_guru" id="kd_guru" placeholder="Kd Guru" class="form-control">
+                            <input type="text" name="kd_guru" id="kd_guru" value="<?php echo $hasilkode; ?>" class="form-control" readonly>
+                        </div>
                         <div class="form-group">
                             <label for="id_users">Id Users</label>
                             <input type="text" name="id_users" id="id_users" placeholder="Id Users" class="form-control">
