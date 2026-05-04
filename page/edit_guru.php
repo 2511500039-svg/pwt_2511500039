@@ -9,7 +9,14 @@
 </div>
 
 <?php
-$kd_guru = $_GET['kd'];
+$kd_guru = isset($_GET['kd']) ? $_GET['kd'] : '';
+
+if($kd_guru == ''){
+    echo '<div class="alert alert-danger">Parameter tidak ditemukan</div>';
+    echo '<script>setTimeout(function(){ window.location="index.php?page=guru"; }, 1000);</script>';
+    exit;
+}
+
 $query = mysqli_query($koneksi, "SELECT * FROM guru WHERE Kd_guru = '$kd_guru'");
 $data = mysqli_fetch_array($query);
 
@@ -62,24 +69,27 @@ if(isset($_POST['edit'])){
                 <form method="POST" action="">
                     <div class="form-group">
                         <label for="kd_guru">Kode Guru</label>
-                        <input type="text" name="kd_guru" value="<?= $data['Kd_guru']; ?>" class="form-control" readonly>
+                        <input type="text" value="<?= $data['Kd_guru']; ?>" class="form-control" readonly>
                         <small class="text-muted">Kode guru tidak dapat diubah</small>
                     </div>
+
                     <div class="form-group">
                         <label for="nm_guru">Nama Guru</label>
-                        <input type="text" name="nm_guru" id="nm_guru" value="<?= $data['Nm_guru']; ?>" class="form-control" required autofocus>
+                        <input type="text" name="nm_guru" value="<?= $data['Nm_guru']; ?>" class="form-control" required>
                     </div>
+
                     <div class="form-group">
                         <label for="jenkel">Jenis Kelamin</label>
-                        <select name="jenkel" id="jenkel" class="form-control" required>
+                        <select name="jenkel" class="form-control" required>
                             <option value="">-- Pilih Jenis Kelamin --</option>
                             <option value="Laki-laki" <?= ($data['Jenkel'] == 'Laki-laki') ? 'selected' : ''; ?>>Laki-laki</option>
                             <option value="Perempuan" <?= ($data['Jenkel'] == 'Perempuan') ? 'selected' : ''; ?>>Perempuan</option>
                         </select>
                     </div>
+
                     <div class="form-group">
                         <label for="pend_terakhir">Pendidikan Terakhir</label>
-                        <select name="pend_terakhir" id="pend_terakhir" class="form-control" required>
+                        <select name="pend_terakhir" class="form-control" required>
                             <option value="">-- Pilih Pendidikan Terakhir --</option>
                             <option value="SMA/Sederajat" <?= ($data['Pend_terakhir'] == 'SMA/Sederajat') ? 'selected' : ''; ?>>SMA/Sederajat</option>
                             <option value="D3" <?= ($data['Pend_terakhir'] == 'D3') ? 'selected' : ''; ?>>D3</option>
@@ -88,14 +98,17 @@ if(isset($_POST['edit'])){
                             <option value="S3" <?= ($data['Pend_terakhir'] == 'S3') ? 'selected' : ''; ?>>S3</option>
                         </select>
                     </div>
+
                     <div class="form-group">
                         <label for="hp">Nomor HP</label>
-                        <input type="text" name="hp" id="hp" value="<?= $data['Hp']; ?>" class="form-control">
+                        <input type="text" name="hp" value="<?= $data['Hp']; ?>" class="form-control">
                     </div>
+
                     <div class="form-group">
                         <label for="alamat">Alamat</label>
-                        <textarea name="alamat" id="alamat" rows="3" class="form-control"><?= $data['Alamat']; ?></textarea>
+                        <textarea name="alamat" class="form-control"><?= $data['Alamat']; ?></textarea>
                     </div>
+
                     <div class="card-footer">
                         <input type="submit" class="btn btn-primary" name="edit" value="Update">
                         <a href="index.php?page=guru" class="btn btn-default">Kembali</a>
