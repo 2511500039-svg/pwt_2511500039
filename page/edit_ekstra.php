@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Edit Ektstrakurikuler</h1>
+                <h1 class="m-0 text-dark">Edit Ekstrakurikuler</h1>
             </div>
         </div>
     </div>
@@ -20,7 +20,6 @@ if(!$data){
 }
 
 if(isset($_POST['edit'])){
-
     $id_ekstra = $_POST['id_ekstra'];
     $nama_ekstra = $_POST['nama_ekstra'];
     $keterangan = $_POST['keterangan'];
@@ -29,6 +28,7 @@ if(isset($_POST['edit'])){
 
     $update = mysqli_query($koneksi, "
         UPDATE ekstra SET 
+        id_ekstra='$id_ekstra',
         nama_ekstra='$nama_ekstra',
         keterangan='$keterangan',
         semester='$semester',
@@ -53,7 +53,7 @@ if(isset($_POST['edit'])){
 <form method="POST">
 
     <div class="form-group">
-        <label>Id Ekstrakurikuler</label>
+        <label>Id</label>
         <input type="text" value="<?= $data['id_ekstra'] ?>" class="form-control" readonly>
     </div>
 
@@ -75,17 +75,6 @@ if(isset($_POST['edit'])){
     <div class="form-group">
         <label>Tahun Ajaran</label>
         <input type="text" name="thn_ajaran" value="<?= $data['thn_ajaran'] ?>" class="form-control">
-    </div>
-
-    <div class="form-group">
-        <label>HP</label>
-        <input type="text" name="hp" value="<?= $data['hp'] ?>" class="form-control">
-    </div>
-
-    <div class="form-group">
-        <label>Kelas</label>
-        <input type="text" name="kelas" value="<?= $data['kelas'] ?>" class="form-control">
-    </div>
 
     <button type="submit" name="edit" class="btn btn-primary">
         Update
