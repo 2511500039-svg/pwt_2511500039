@@ -11,7 +11,7 @@
 <?php
 // HAPUS DATA
 if(isset($_GET['action']) && $_GET['action'] == "hapus") {
-    $nis = $_GET['id_ekstra'];
+    $id_ekstra = $_GET['id_ekstra'];
 
     $hapus = mysqli_query($koneksi, "DELETE FROM ekstra WHERE id_ekstra='$id_ekstra'");
 
@@ -64,13 +64,13 @@ if(isset($_GET['action']) && $_GET['action'] == "hapus") {
                             <td><?= $row['thn_ajaran']; ?></td>
 
                             <td>
-                                <a href="index.php?page=jadwal&action=hapus&id_ekstra=<?= $row['id_ekstra']; ?>" class="badge badge-danger">Hapus</a>
-                                <a href="index.php?page=edit_jadwal&id_ekstra=<?= $row['id_ekstra']; ?>" class="badge badge-warning">Edit</a>
+                                <a href="index.php?page=ekstra&action=hapus&id_ekstra=<?= $row['id_ekstra']; ?>" class="badge badge-danger">Hapus</a>
+                                <a href="index.php?page=edit_ekstra&id_ekstra=<?= $row['id_ekstra']; ?>" class="badge badge-warning">Edit</a>
                             </td>
                         </tr>
                     <?php }} else { ?>
                         <tr>
-                            <td colspan="7" class="text-center">Jadwal kosong</td>
+                            <td colspan="7" class="text-center">Ekstrakurikuler kosong</td>
                         </tr>
                     <?php } ?>
                     </tbody>
