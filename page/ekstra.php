@@ -56,7 +56,6 @@ if(isset($_GET['action']) && $_GET['action'] == "hapus") {
                         while($row = mysqli_fetch_assoc($query)){
                     ?>
                         <tr>
-                            <td><?= $no++; ?></td>
                             <td><?= $row['id_ekstra']; ?></td>
                             <td><?= $row['nama_ekstra']; ?></td>
                             <td><?= $row['keterangan']; ?></td>
