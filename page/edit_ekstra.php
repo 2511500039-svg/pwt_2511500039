@@ -11,11 +11,6 @@
 <?php
 $id_ekstra = isset($_GET['id_ekstra']) ? $_GET['id_ekstra'] : '';
 
-if($id_ekstra == ''){
-    echo "<div class='alert alert-danger'>ID tidak ditemukan di URL</div>";
-    exit;
-}
-
 $query = mysqli_query($koneksi, "SELECT * FROM ekstra WHERE id_ekstra = '$id_ekstra'");
 $data = mysqli_fetch_array($query);
 
@@ -25,7 +20,7 @@ if(!$data){
 }
 
 if(isset($_POST['edit'])){
-    $id_ekstra_post = $_POST['id_ekstra'];
+    $id_ekstra = $_POST['id_ekstra'];
     $nama_ekstra = $_POST['nama_ekstra'];
     $keterangan = $_POST['keterangan'];
     $semester = $_POST['semester'];
@@ -33,18 +28,19 @@ if(isset($_POST['edit'])){
 
     $update = mysqli_query($koneksi, "
         UPDATE ekstra SET 
+        id_ekstra='$id_ekstra',
         nama_ekstra='$nama_ekstra',
         keterangan='$keterangan',
         semester='$semester',
         thn_ajaran='$thn_ajaran'
-        WHERE id_ekstra='$id_ekstra_post'
+        WHERE id_ekstra='$id_ekstra'
     ");
 
     if($update){
         echo "<div class='alert alert-success'>Berhasil update</div>";
         echo "<meta http-equiv='refresh' content='1;url=index.php?page=ekstra'>";
     } else {
-        echo "<div class='alert alert-danger'>Gagal update: " . mysqli_error($koneksi) . "</div>";
+        echo mysqli_error($koneksi);
     }
 }
 ?>
@@ -58,7 +54,7 @@ if(isset($_POST['edit'])){
 
     <div class="form-group">
         <label>Id</label>
-        <input type="text" name="id_ekstra" value="<?= $data['id_ekstra'] ?>" class="form-control" readonly>
+        <input type="text" value="<?= $data['id_ekstra'] ?>" class="form-control" readonly>
     </div>
 
     <div class="form-group">
@@ -79,10 +75,9 @@ if(isset($_POST['edit'])){
     <div class="form-group">
         <label>Tahun Ajaran</label>
         <input type="text" name="thn_ajaran" value="<?= $data['thn_ajaran'] ?>" class="form-control">
-    </div>
 
     <button type="submit" name="edit" class="btn btn-primary">
-        Update
+        Simpan
     </button>
 
 </form>

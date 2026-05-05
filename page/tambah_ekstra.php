@@ -60,12 +60,20 @@ if(isset($_POST['tambah'])){
 
                     <div class="form-group">
                         <label>Semester</label>
-                        <input type="text" name="semester" class="form-control" required>
+                        <select name="semester" class="form-control" required>
+                            <option value="">-- Pilih --</option>
+                            <option value="1">Ganjil</option>
+                            <option value="2">Genap</option>
+                        </select>
                     </div>
 
                     <div class="form-group">
                         <label>Tahun Ajaran</label>
-                        <input type="text" name="thn_ajaran" class="form-control" required>
+                        <select name="thn_ajaran" class="form-control" required>
+                            <option value="">-- Pilih --</option>
+                            <option value="2022/2023">2022/2023</option>
+                            <option value="2023/2024">2023/2024</option>
+                        </select>
                     </div>
 
                     <button type="submit" name="tambah" class="btn btn-primary">
