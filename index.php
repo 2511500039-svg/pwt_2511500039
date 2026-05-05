@@ -119,7 +119,7 @@ if (!isset($_SESSION['role'])) {
 
             <?php if ($role == 'admin') : ?>
             <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="index.php?page=jadwal" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Jadwal</p></a></li>
+              <li class="nav-item"><a href="index.php?page=ekstra" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Ekstrakurikuler</p></a></li>
               <li class="nav-item"><a href="index.php?page=guru" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Guru</p></a></li>
               <li class="nav-item"><a href="index.php?page=siswa" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Siswa</p></a></li>
               <li class="nav-item"><a href="index.php?page=mapel"  class="nav-link active"><i class="far fa-circle nav-icon"></i><p>Mata Pelajaran</p></a></li>

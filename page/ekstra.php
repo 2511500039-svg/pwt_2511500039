@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Data Jadwal</h1>
+                <h1 class="m-0 text-dark">Data Ekstrakurikuler</h1>
             </div>
         </div>
     </div>
@@ -11,13 +11,13 @@
 <?php
 // HAPUS DATA
 if(isset($_GET['action']) && $_GET['action'] == "hapus") {
-    $nis = $_GET['id_jadwal'];
+    $nis = $_GET['id_ekstra'];
 
-    $hapus = mysqli_query($koneksi, "DELETE FROM jadwal WHERE id_jadwal='$id_jadwal'");
+    $hapus = mysqli_query($koneksi, "DELETE FROM ekstra WHERE id_ekstra='$id_ekstra'");
 
     if($hapus){
         echo "<div class='alert alert-warning'>Data berhasil dihapus</div>";
-        echo "<meta http-equiv='refresh' content='1;url=index.php?page=jadwal'>";
+        echo "<meta http-equiv='refresh' content='1;url=index.php?page=ekstra'>";
     } else {
         echo "<div class='alert alert-danger'>".mysqli_error($koneksi)."</div>";
     }
@@ -28,21 +28,20 @@ if(isset($_GET['action']) && $_GET['action'] == "hapus") {
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Daftar Jadwal</h3>
+                <h3 class="card-title">Daftar Ekstrakurikuler</h3>
             </div>
 
             <div class="card-body">
-                <a href="index.php?page=tambah_jadwal" class="btn btn-primary btn-sm mb-3">Tambah Jadwal</a>
+                <a href="index.php?page=tambah_ekstra" class="btn btn-primary btn-sm mb-3">Tambah Ekstrakurikuler</a>
 
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Hari</th>
-                            <th>Jam</th>
-                            <th>Kode Guru</th>
-                            <th>Kode Mapel</th>
-                            <th>Kode Kelas</th>
+                            <th>Nama</th>
+                            <th>Keterangan</th>
+                            <th>Semester</th>
+                            <th>Tahun Ajaran</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -51,23 +50,22 @@ if(isset($_GET['action']) && $_GET['action'] == "hapus") {
                     <?php
                     $no = 1;
 
-                    $query = mysqli_query($koneksi, "SELECT * FROM jadwal");
+                    $query = mysqli_query($koneksi, "SELECT * FROM ekstra");
 
                     if(mysqli_num_rows($query) > 0){
                         while($row = mysqli_fetch_assoc($query)){
                     ?>
                         <tr>
                             <td><?= $no++; ?></td>
-                            <td><?= $row['id_jadwal']; ?></td>
-                            <td><?= $row['hari']; ?></td>
-                            <td><?= $row['jam']; ?></td>
-                            <td><?= $row['kd_guru']; ?></td>
-                            <td><?= $row['kd_mapel']; ?></td>
-                            <td><?= $row['kd_kelas']; ?></td>
+                            <td><?= $row['id_ekstra']; ?></td>
+                            <td><?= $row['nama_ekstra']; ?></td>
+                            <td><?= $row['keterangan']; ?></td>
+                            <td><?= $row['semester']; ?></td>
+                            <td><?= $row['thn_ajaran']; ?></td>
 
                             <td>
-                                <a href="index.php?page=jadwal&action=hapus&nis=<?= $row['nis']; ?>" class="badge badge-danger">Hapus</a>
-                                <a href="index.php?page=edit_jadwal&nis=<?= $row['nis']; ?>" class="badge badge-warning">Edit</a>
+                                <a href="index.php?page=jadwal&action=hapus&id_ekstra=<?= $row['id_ekstra']; ?>" class="badge badge-danger">Hapus</a>
+                                <a href="index.php?page=edit_jadwal&id_ekstra=<?= $row['id_ekstra']; ?>" class="badge badge-warning">Edit</a>
                             </td>
                         </tr>
                     <?php }} else { ?>
