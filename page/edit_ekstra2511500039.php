@@ -10,22 +10,22 @@
 
 <?php
 $id = $_GET['id'];
-$edit = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM ekstra_2511500015 WHERE id_ekstra015='$id'"));
+$edit = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM ekstra_2511500039 WHERE id_ekstra039='$id'"));
 
 if(isset($_POST['tambah'])){
-    $id_ekstra015 = $_POST['id_ekstra015'];
-    $nama_ekstra015 = $_POST['nama_ekstra015'];
-    $ket015 = $_POST['ket015'];
-    $semester015 = $_POST['semester015'];
-    $thn_ajaran015 = $_POST['thn_ajaran015'];
+    $id_ekstra039 = $_POST['id_ekstra039'];
+    $nama_ekstra039 = $_POST['nama_ekstra039'];
+    $ket039 = $_POST['ket039'];
+    $semester039 = $_POST['semester039'];
+    $thn_ajaran039 = $_POST['thn_ajaran039'];
 
-    $insert = mysqli_query($koneksi, "UPDATE ekstra_2511500015 SET nama_ekstra015='$nama_ekstra015', ket015='$ket015', semester015='$semester015', thn_ajaran015='$thn_ajaran015' WHERE id_ekstra015='$id_ekstra015'");
+    $insert = mysqli_query($koneksi, "UPDATE ekstra_2511500039 SET nama_ekstra039='$nama_ekstra039', ket039='$ket039', semester039='$semester039', thn_ajaran039='$thn_ajaran039' WHERE id_ekstra039='$id_ekstra039'");
     if($insert){
         echo '<div class="alert alert-info-dismissible">
         <button type="button" class="close" data-dismiss="alert"aria-hidden="true">X</button>
         <h5><i class="icon fas fa-info"></i> Info </h5>
         <h4>Berhasil Disimpan</h4></div>';
-        echo '<meta http-equiv="refresh" content="1;url=index.php?page=ekstra2511500015">';
+        echo '<meta http-equiv="refresh" content="1;url=index.php?page=ekstra2511500039">';
     }else {
        echo '<div class="alert alert-warning-dismissible">
        <button type="button" class="close" data-dismiss="alert"aria-hidden="true">X</button>
@@ -41,28 +41,28 @@ if(isset($_POST['tambah'])){
                 <div class="card-body p-2">
                     <form method="POST" action="">
                         <div class="form-group">
-                            <label for="id_ekstra015">Id Ekstrakulikuler</label>
-                            <input type="text" name="id_ekstra015" value="<?=$edit['id_ekstra015']; ?>" class="form-control" readonly>
+                            <label for="id_ekstra039">Id Ekstrakulikuler</label>
+                            <input type="text" name="id_ekstra039" value="<?=$edit['id_ekstra039']; ?>" class="form-control" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="nama_ekstra015">Nama Ekstrakulikuler</label>
-                            <input type="text" name="nama_ekstra015" value="<?=$edit['nama_ekstra015']; ?>" id="nama_ekstra015" placeholder="Nama Ekstrakulikuler" class="form-control">
+                            <label for="nama_ekstra039">Nama Ekstrakulikuler</label>
+                            <input type="text" name="nama_ekstra039" value="<?=$edit['nama_ekstra039']; ?>" id="nama_ekstra039" placeholder="Nama Ekstrakulikuler" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="ket015">Keterangan</label>
-                            <input type="text" name="ket015" value="<?=$edit['ket015']; ?>" id="ket015" placeholder="Keterangan" class="form-control">
+                            <label for="ket039">Keterangan</label>
+                            <input type="text" name="ket039" value="<?=$edit['ket039']; ?>" id="ket039" placeholder="Keterangan" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="semester015">Semester</label>
-                            <select name="semester015" id="semester015" class="form-control">
+                            <label for="semester039">Semester</label>
+                            <select name="semester039" id="semester039" class="form-control">
                                     <option value="">Pilih Semester</option>
                                     <option value="Ganjil">Ganjil</option>
                                     <option value="Genap">Genap</option>
                                 </select>
                         </div>
                         <div class="form-group">
-                            <label for="thn_ajaran015">Tahun Ajaran</label>
-                            <select name="thn_ajaran015" id="thn_ajaran015" class="form-control">
+                            <label for="thn_ajaran039">Tahun Ajaran</label>
+                            <select name="thn_ajaran039" id="thn_ajaran039" class="form-control">
                                     <option value="">Pilih Tahun Ajaran</option>
                                     <option value="2022/2023">2024/2025</option>
                                     <option value="2023/2024">2025/2026</option>

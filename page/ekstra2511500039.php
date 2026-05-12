@@ -12,12 +12,12 @@
 if(isset($_GET['action'])) {
     if($_GET['action'] == "hapus") {
         $id =$_GET['id'];
-        $query = mysqli_query($koneksi, "DELETE FROM ekstra_2511500015 WHERE id_ekstra015 ='$id'");
+        $query = mysqli_query($koneksi, "DELETE FROM ekstra_2511500039 WHERE id_ekstra039 ='$id'");
         if ($query) {
             echo '
             <div class="alert alert-warning alert-dismissible">
             Berhasil di hapus</div>';
-            echo '<meta http-equiv="refresh" content="1;url=index.php?page=ekstra2511500015">';
+            echo '<meta http-equiv="refresh" content="1;url=index.php?page=ekstra2511500039">';
         }
     }
 }
@@ -26,7 +26,7 @@ if(isset($_GET['action'])) {
     <div class="container-fluid">
         <div class="card">
             <div class="card-body">
-                <a href="index.php?page=tambah_ekstra2511500015" class="btn btn-primary btn-sm">Tambah Ekstrakulikuler</a>
+                <a href="index.php?page=tambah_ekstra2511500039" class="btn btn-primary btn-sm">Tambah Ekstrakulikuler</a>
                 <table class="table table-striped">
                     <tread>
                         <tr>
@@ -41,22 +41,22 @@ if(isset($_GET['action'])) {
                     </tread>
                     <?php
                     $no = 0;
-                    $query = mysqli_query($koneksi, "SELECT * FROM ekstra_2511500015");
+                    $query = mysqli_query($koneksi, "SELECT * FROM ekstra_2511500039");
                     while ($result = mysqli_fetch_array($query) ) {
                         $no++
                     ?>
                         <tbody>
                             <tr>
                                 <td><?= $no;?></td>
-                                <td><?=$result['id_ekstra015']; ?></td>
-                                <td><?=$result['nama_ekstra015']; ?></td>
-                                <td><?=$result['ket015']; ?></td>
-                                <td><?=$result['semester015']; ?></td>
-                                <td><?=$result['thn_ajaran015']; ?></td>
+                                <td><?=$result['id_ekstra039']; ?></td>
+                                <td><?=$result['nama_ekstra039']; ?></td>
+                                <td><?=$result['ket039']; ?></td>
+                                <td><?=$result['semester039']; ?></td>
+                                <td><?=$result['thn_ajaran039']; ?></td>
                                 <td>
-                                    <a href="index.php?page=ekstra2511500015&action=hapus&id=<?= $result['id_ekstra015']?>" title="">
+                                    <a href="index.php?page=ekstra2511500039&action=hapus&id=<?= $result['id_ekstra039']?>" title="">
                                         <span class="badge badge-danger">Hapus</span></a>
-                                    <a href ="index.php?page=edit_ekstra2511500015&id=<?= $result['id_ekstra015']?>" title="">
+                                    <a href ="index.php?page=edit_ekstra2511500039&id=<?= $result['id_ekstra039']?>" title="">
                                         <span class="badge badge-warning">Edit</span></a>
                                 </td>
                             </tr>
