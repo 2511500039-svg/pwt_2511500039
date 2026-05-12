@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     $query = mysqli_query($koneksi, "SELECT * FROM users WHERE username='$username'");
     if (mysqli_num_rows($query) > 0) {
         $user = mysqli_fetch_assoc($query);
-        if ($password === $user['password']) { // ganti dengan password_verify jika pakai hash
+        if ($password === $user['password']) { 
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
             header("Location: index.php");
@@ -119,7 +119,7 @@ if (!isset($_SESSION['role'])) {
 
             <?php if ($role == 'admin') : ?>
             <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="index.php?page=ekstra" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Ekstrakurikuler</p></a></li>
+              <li class="nav-item"><a href="index.php?page=ekstra_2511500039" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Ekstrakurikuler</p></a></li>
               <li class="nav-item"><a href="index.php?page=guru" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Guru</p></a></li>
               <li class="nav-item"><a href="index.php?page=siswa" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Siswa</p></a></li>
               <li class="nav-item"><a href="index.php?page=mapel"  class="nav-link active"><i class="far fa-circle nav-icon"></i><p>Mata Pelajaran</p></a></li>
