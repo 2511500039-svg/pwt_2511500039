@@ -2,26 +2,24 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Data Mapel</h1>
+                <h1 class="m-0 text-dark">Data Mata Pelajaran</h1>
             </div>
         </div>
     </div>
 </div>
 
 <?php
-if (isset($_GET['action'])) {
-    if ($_GET['action'] == "hapus") {
-        $kd = $_GET['kd'];
-        $query = mysqli_query($koneksi, "DELETE FROM mapel WHERE kd_mapel ='$kd'");
+// HAPUS DATA
+if(isset($_GET['action']) && $_GET['action'] == "hapus") {
+    $kd_mapel = $_GET['kd_mapel'];
 
-        if ($query) {
-            echo "<div class='alert alert-warning alert-dismissible'>
-                    Berhasil Di Hapus
-                  </div>";
-            echo "<meta http-equiv='refresh' content='1;url=index.php?page=mapel'>";
-        } else {
-            die("Query Error (DELETE): " . mysqli_error($koneksi));
-        }
+    $hapus = mysqli_query($koneksi, "DELETE FROM mapel WHERE kd_mapel='$kd_mapel'");
+
+    if($hapus){
+        echo "<div class='alert alert-warning'>Data berhasil dihapus</div>";
+        echo "<meta http-equiv='refresh' content='1;url=index.php?page=mapel'>";
+    } else {
+        echo "<div class='alert alert-danger'>".mysqli_error($koneksi)."</div>";
     }
 }
 ?>
@@ -29,52 +27,50 @@ if (isset($_GET['action'])) {
 <div class="content">
     <div class="container-fluid">
         <div class="card">
-            <div class="card-body">
-                <a href="index.php?page=tambah_mapel" class="btn btn-primary btn-sm">Tambah Mapel</a>
+            <div class="card-header">
+                <h3 class="card-title">Daftar Mata Pelajaran</h3>
+            </div>
 
-                <table class="table table-striped">
+            <div class="card-body">
+                <a href="index.php?page=tambah_mapel" class="btn btn-primary btn-sm mb-3">Tambah Mata Pelajaran</a>
+
+                <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Kode Mapel</th>
-                            <th>Nama Mapel</th>
+                            <th>Kode Mata Pelajaran</th>
+                            <th>Nama Pelajaran</th>
                             <th>KKM</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
 
+                    <tbody>
                     <?php
-                    $no = 0;
+                    $no = 1;
+
                     $query = mysqli_query($koneksi, "SELECT * FROM mapel");
 
-                    // CEK ERROR QUERY
-                    if (!$query) {
-                        die("Query Error (SELECT): " . mysqli_error($koneksi));
-                    }
-
-                    while ($result = mysqli_fetch_array($query)) {
-                        $no++;
+                    if(mysqli_num_rows($query) > 0){
+                        while($row = mysqli_fetch_assoc($query)){
                     ?>
-
-                    <tbody>
                         <tr>
-                            <td><?php echo $no; ?></td>
-                            <td><?php echo $result['kd_mapel']; ?></td>
-                            <td><?php echo $result['nm_mapel']; ?></td>
-                            <td><?php echo $result['kkm']; ?></td>
+                            <td><?= $no++; ?></td>
+                            <td><?= $row['kd_mapel']; ?></td>
+                            <td><?= $row['nm_mapel']; ?></td>
+                            <td><?= $row['kkm']; ?></td>
                             <td>
-                                <a href="index.php?page=edit_mapel&kd=<?= $result['kd_mapel']; ?>" title="">
-                                    <span class="badge badge-warning">Edit</span>
-                                </a>
-
-                                <a href="index.php?page=mapel&action=hapus&kd=<?= $result['kd_mapel']; ?>" title="">
-                                    <span class="badge badge-danger">Hapus</span>
-                                </a>
+                                <a href="index.php?page=mapel&action=hapus&kd_mapel=<?= $row['kd_mapel']; ?>" class="badge badge-danger">Hapus</a>
+                                <a href="index.php?page=edit_mapel&kd_mapel=<?= $row['kd_mapel']; ?>" class="badge badge-warning">Edit</a>
                             </td>
                         </tr>
+                    <?php }} else { ?>
+                        <tr>
+                            <td colspan="7" class="text-center">Data kosong</td>
+                        </tr>
+                    <?php } ?>
                     </tbody>
 
-                    <?php } ?>
                 </table>
             </div>
         </div>

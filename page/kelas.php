@@ -9,19 +9,17 @@
 </div>
 
 <?php
-if (isset($_GET['action'])) {
-    if ($_GET['action'] == "hapus") {
-        $kd = $_GET['kd'];
-        $query = mysqli_query($koneksi, "DELETE FROM kelas WHERE id_kelas ='$kd'");
+// HAPUS DATA
+if(isset($_GET['action']) && $_GET['action'] == "hapus") {
+    $id_kelas = $_GET['id_kelas'];
 
-        if ($query) {
-            echo "<div class='alert alert-warning alert-dismissible'>
-                    Berhasil Di Hapus
-                  </div>";
-            echo "<meta http-equiv='refresh' content='1;url=index.php?page=kelas'>";
-        } else {
-            die("Query Error (DELETE): " . mysqli_error($koneksi));
-        }
+    $hapus = mysqli_query($koneksi, "DELETE FROM kelas WHERE id_kelas='$id_kelas'");
+
+    if($hapus){
+        echo "<div class='alert alert-warning'>Data berhasil dihapus</div>";
+        echo "<meta http-equiv='refresh' content='1;url=index.php?page=kelas'>";
+    } else {
+        echo "<div class='alert alert-danger'>".mysqli_error($koneksi)."</div>";
     }
 }
 ?>
@@ -29,10 +27,14 @@ if (isset($_GET['action'])) {
 <div class="content">
     <div class="container-fluid">
         <div class="card">
-            <div class="card-body">
-                <a href="index.php?page=tambah_kelas" class="btn btn-primary btn-sm">Tambah Kelas</a>
+            <div class="card-header">
+                <h3 class="card-title">Daftar Kelas</h3>
+            </div>
 
-                <table class="table table-striped">
+            <div class="card-body">
+                <a href="index.php?page=tambah_kelas" class="btn btn-primary btn-sm mb-3">Tambah Kelas</a>
+
+                <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -42,37 +44,31 @@ if (isset($_GET['action'])) {
                         </tr>
                     </thead>
 
+                    <tbody>
                     <?php
-                    $no = 0;
+                    $no = 1;
+
                     $query = mysqli_query($koneksi, "SELECT * FROM kelas");
 
-                    // CEK ERROR QUERY
-                    if (!$query) {
-                        die("Query Error (SELECT): " . mysqli_error($koneksi));
-                    }
-
-                    while ($result = mysqli_fetch_array($query)) {
-                        $no++;
+                    if(mysqli_num_rows($query) > 0){
+                        while($row = mysqli_fetch_assoc($query)){
                     ?>
-
-                    <tbody>
                         <tr>
-                            <td><?php echo $no; ?></td>
-                            <td><?php echo $result['id_kelas']; ?></td>
-                            <td><?php echo $result['nm_kelas']; ?></td>
-                            <td>
-                                <a href="index.php?page=edit_kelas&kd=<?= $result['id_kelas']; ?>" title="">
-                                    <span class="badge badge-warning">Edit</span>
-                                </a>
-
-                                <a href="index.php?page=kelas&action=hapus&kd=<?= $result['id_kelas']; ?>" title="">
-                                    <span class="badge badge-danger">Hapus</span>
-                                </a>
+                            <td><?= $no++; ?></td>
+                            <td><?= $row['id_kelas']; ?></td>
+                            <td><?= $row['nm_kelas']; ?></td>
+                            <td>>
+                                <a href="index.php?page=kelas&action=hapus&id_kelas=<?= $row['id_kelas']; ?>" class="badge badge-danger">Hapus</a>
+                                <a href="index.php?page=edit_kelas&id_kelas=<?= $row['id_kelas']; ?>" class="badge badge-warning">Edit</a>
                             </td>
                         </tr>
+                    <?php }} else { ?>
+                        <tr>
+                            <td colspan="7" class="text-center">Data kosong</td>
+                        </tr>
+                    <?php } ?>
                     </tbody>
 
-                    <?php } ?>
                 </table>
             </div>
         </div>
