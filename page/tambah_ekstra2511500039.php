@@ -33,7 +33,7 @@
             <button type="button" class="close" data-dismiss="alert"aria-hidden="true">X</button>
             <h5><i class="icon fas fa-info"></i> Info </h5>
             <h4>Berhasil Disimpan</h4></div>';
-            echo '<meta http-equiv="refresh" content="1;url=index.php?page=ekstra2511500015">';
+            echo '<meta http-equiv="refresh" content="1;url=index.php?page=ekstra2511500039">';
         }else {
            echo '<div class="alert alert-warning-dismissible">
            <button type="button" class="close" data-dismiss="alert"aria-hidden="true">X</button>
