@@ -1,176 +1,254 @@
+
 <?php
-session_start();
-require_once("config/koneksi.php");
-
-// Login handling
-$error = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    $query = mysqli_query($koneksi, "SELECT * FROM users WHERE username='$username'");
-    if (mysqli_num_rows($query) > 0) {
-        $user = mysqli_fetch_assoc($query);
-        if ($password === $user['password']) { 
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['role'];
-            header("Location: index.php");
-            exit;
-        } else {
-            $error = "Password salah!";
-        }
-    } else {
-        $error = "Username tidak ditemukan!";
-    }
-}
-
-// Logout
-if (isset($_GET['action']) && $_GET['action'] === 'logout') {
-    session_destroy();
-    header("Location: index.php");
+  session_start();
+  require_once("config/koneksi.php");
+  if(isset($_SESSION['Role'])) {
+    $Role = $_SESSION['Role'];
+    if (!isset($_SESSION['Username'])) {
+    echo "<script>window.location='login.php';</script>";
     exit;
-}
-
-// Redirect ke login jika belum login
-if (!isset($_SESSION['role'])) {
-    $show_login = true;
-} else {
-    $show_login = false;
-    $role = $_SESSION['role'];
 }
 ?>
 <!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AdminLTE 3 | Starter</title>
+
+  <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
 </head>
-<body class="hold-transition <?php echo $show_login ? 'login-page' : 'sidebar-mini'; ?>">
-
-<?php if($show_login): ?>
-<div class="login-box">
-  <div class="login-logo"><b>Admin</b>LTE</div>
-  <div class="card">
-    <div class="card-body login-card-body">
-      <p class="login-box-msg">Sign in to start your session</p>
-      <?php if($error): ?><div class="alert alert-danger"><?php echo $error; ?></div><?php endif; ?>
-      <form method="post" action="index.php">
-        <div class="input-group mb-3">
-          <input type="text" name="username" class="form-control" placeholder="Username" required>
-          <div class="input-group-append"><div class="input-group-text"><span class="fas fa-user"></span></div></div>
-        </div>
-        <div class="input-group mb-3">
-          <input type="password" name="password" class="form-control" placeholder="Password" required>
-          <div class="input-group-append"><div class="input-group-text"><span class="fas fa-lock"></span></div></div>
-        </div>
-        <div class="row"><div class="col-12"><button type="submit" name="login" class="btn btn-primary btn-block">Login</button></div></div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<?php else: ?>
-
+<body class="hold-transition sidebar-mini">
 <div class="wrapper">
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
     <ul class="navbar-nav">
-      <li class="nav-item"><a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a></li>
-      <li class="nav-item d-none d-sm-inline-block"><a href="index.php" class="nav-link">Home</a></li>
-      <li class="nav-item d-none d-sm-inline-block"><a href="#" class="nav-link">Contact</a></li>
-    </ul>
-    <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#"><i class="fas fa-search"></i></a>
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="index3.html" class="nav-link">Home</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="#" class="nav-link">Contact</a>
       </li>
     </ul>
-  </nav>
 
-  <!-- Sidebar -->
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Navbar Search -->
+      <li class="nav-item">
+        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+          <i class="fas fa-search"></i>
+        </a>
+        <div class="navbar-search-block">
+          <form class="form-inline">
+            <div class="input-group input-group-sm">
+              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+              <div class="input-group-append">
+                <button class="btn btn-navbar" type="submit">
+                  <i class="fas fa-search"></i>
+                </button>
+                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </li>
+
+    </ul>
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <a href="index.php" class="brand-link">
-      <img src="dist/img/AdminLTELogo.png" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <!-- Brand Logo -->
+    <a href="index3.html" class="brand-link">
+      <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">AdminLTE 3</span>
     </a>
-    <div class="sidebar">
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image"><img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2"></div>
-        <div class="info"><a href="#" class="d-block"><?php echo $_SESSION['username']; ?></a></div>
-      </div>
 
-      <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search">
-          <div class="input-group-append"><button class="btn btn-sidebar"><i class="fas fa-search fa-fw"></i></button></div>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="#" class="d-block"><?php echo $_SESSION['Username']; ?></a>
         </div>
       </div>
 
+      <!-- SidebarSearch Form -->
+      <div class="form-inline">
+        <div class="input-group" data-widget="sidebar-search">
+          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+          <div class="input-group-append">
+            <button class="btn btn-sidebar">
+              <i class="fas fa-search fa-fw"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
 
           <li class="nav-item menu-open">
-            <a href="#" class="nav-link active"><i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>Master<i class="right fas fa-angle-left"></i></p></a>
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Master
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
 
-            <?php if ($role == 'admin') : ?>
+            <?php if ($Role == 'admin') : ?>
             <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="index.php?page=ekstra2511500039" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Ekstrakurikuler</p></a></li>
-              <li class="nav-item"><a href="index.php?page=guru" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Guru</p></a></li>
-              <li class="nav-item"><a href="index.php?page=siswa" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Siswa</p></a></li>
-              <li class="nav-item"><a href="index.php?page=mapel"  class="nav-link active"><i class="far fa-circle nav-icon"></i><p>Mata Pelajaran</p></a></li>
-              <li class="nav-item"><a href="index.php?page=kelas"  class="nav-link active"><i class="far fa-circle nav-icon"></i><p>Kelas</p></a></li>
+              <li class="nav-item">
+                <a href="index.php?page=guru" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Guru</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="index.php?page=siswa" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Siswa</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="index.php?page=mapel" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Mata Pelajaran</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="index.php?page=kelas" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Kelas</p>
+                </a>
+              </li>
             </ul>
-            <?php endif; ?>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="index.php?page=ekstra2511500015" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ekstrakulikuler</p>
+                </a>
+              </li>
+            <?php endif; ?>   
 
-            <?php if ($role == 'guru') : ?>
+            <?php if ($Role == 'guru') : ?>
             <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="index.php?page=guru" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Guru</p></a></li>
-              <li class="nav-item"><a href="index.php?page=kelas" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Kelas</p></a></li>
+              <li class="nav-item">
+                <a href="index.php?page=guru" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Profil</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Kelas</p>
+                </a>
+              </li>
+                            <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>jadwal</p>
+                </a>
+              </li>
             </ul>
-            <?php endif; ?>
+            <?php endif; ?>            
 
-            <?php if ($role == 'siswa') : ?>
+            <?php if ($Role == 'siswa') : ?>
             <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="index.php?page=siswa" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Siswa</p></a></li>
+              <li class="nav-item">
+                <a href="index.php?page=siswa" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Profil</p>
+                </a>
+              </li>
+                            <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Jadwal</p>
+                </a>
+              </li>
             </ul>
-            <?php endif; ?>
+            <?php endif; ?> 
 
           </li>
-
+              <li class="nav-item menu-open">
+                <a href="#" class="nav-link active">
+                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <p>Transaksi
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="index.php?page=jadwal" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Jadwal</p>
+                </a>
+              </li>
+            </ul>
+          </li>
           <li class="nav-item">
-            <a href="#" class="nav-link active"><i class="nav-icon fas fa-tachometer-alt"></i><p>Transaksi<i class="right fas fa-angle-left"></i></p></a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="index.php?page=jadwal" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Jadwal</p></a></li>
-            </ul>
+            <a href="logout.php" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Logout
+              </p>
+            </a>
           </li>
-
-          <li class="nav-item"><a href="index.php?action=logout" class="nav-link"><i class="nav-icon fas fa-th"></i><p>Logout</p></a></li>
-
         </ul>
       </nav>
+      <!-- /.sidebar-menu -->
     </div>
+    <!-- /.sidebar -->
   </aside>
 
+  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6"><h1 class="m-0">Starter Page</h1></div>
+          <div class="col-sm-6">
+            <h1 class="m-0">Starter Page</h1>
+          </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active">Starter Page</li>
             </ol>
-          </div>
-        </div>
-      </div>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
     </div>
+    <!-- /.content-header -->
 
+    <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
         <div class="row">
@@ -178,45 +256,73 @@ if (!isset($_SESSION['role'])) {
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title">Dashboard</h5>
+
                 <p class="card-text">
-                <?php
-                  if (isset($_GET['page'])) {
+                 <?php
+                    if (isset($_GET['page'])) {
                       $page = $_GET['page'];
-                  } else {
+                    } else {
                       $page = "";
-                  }
-                  if ($page == "") {
+                    }
+                    if ($page == "") {
                       include "page/dashboard.php";
-                  } elseif (!file_exists("page/$page.php")) {
+                    } elseif (!file_exists("page/$page.php")) {
                       echo "File Tidak Ditemukan";
-                  } else {
-                    include "page/$page.php";
-                  }
-                  ?>
-                </p>
+                    } else {
+                      include "page/$page.php";
+                    }
+                   ?>
+                   </p> 
               </div>
             </div>
+
           </div>
+          <!-- /.col-md-6 -->
+
+          </div>
+          <!-- /.col-md-6 -->
         </div>
-      </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
     </div>
+    <!-- /.content -->
   </div>
+  <!-- /.content-wrapper -->
 
+  <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
-    <div class="p-3"><h5>Title</h5><p>Sidebar content</p></div>
+    <!-- Control sidebar content goes here -->
+    <div class="p-3">
+      <h5>Title</h5>
+      <p>Sidebar content</p>
+    </div>
   </aside>
+  <!-- /.control-sidebar -->
 
+  <!-- Main Footer -->
   <footer class="main-footer">
-    <div class="float-right d-none d-sm-inline">Myodarrrr sia</div>
+    <!-- To the right -->
+    <div class="float-right d-none d-sm-inline">
+      Anything you want
+    </div>
+    <!-- Default to the left -->
     <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
   </footer>
-
 </div>
+<!-- ./wrapper -->
 
-<?php endif; ?>
+<!-- REQUIRED SCRIPTS -->
 
+<!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 </body>
 </html>
+<?php
+  } else {
+    echo"<meta http-equiv='refresh' content='0; url=login.php'>";
+  }
+?>
