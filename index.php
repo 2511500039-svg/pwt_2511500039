@@ -1,322 +1,134 @@
-<?php
-  session_start();
-  require_once("config/koneksi.php");
-  if(isset($_SESSION['Role'])) {
-    $role = $_SESSION['Role'];
+﻿<?php
+session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+require_once(__DIR__ . "/config/koneksi.php");
+if(isset($_SESSION['username']) && !empty($_SESSION['username'])){
+    $page = isset($_GET['page']) ? basename($_GET['page']) : "";
+    function navActive($item) {
+        global $page;
+        return $page === $item ? 'active' : '';
+    }
 ?>
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Starter</title>
-
-  <!-- Google Font: Source Sans Pro -->
+  <title>Sistem Informasi Klinik Gizi</title>
+  <meta name="description" content="Sistem Informasi Klinik Gizi untuk manajemen pasien, ahli gizi, konsultasi, dan laporan.">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-  <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <style>
+    .main-header .navbar { background: #289c6e; }
+    .main-sidebar { background: #054d38; }
+    .brand-link { background: #046a4a; }
+    .brand-text { color: #ffffff !important; }
+    .user-panel .info a { color: #ffffff; }
+    .content-header h1, .card-header, .card-title { color: #0d6efd; }
+    .table thead th { background: #e9f7ef; }
+    .btn-primary { background-color: #007bff; border-color: #007bff; }
+    .btn-info { background-color: #17a2b8; border-color: #17a2b8; }
+  </style>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
-
-  <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index.php" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
+        <a href="index.php" class="nav-link">Dashboard</a>
       </li>
     </ul>
-
-    <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Navbar Search -->
       <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-          <i class="fas fa-search"></i>
-        </a>
-        <div class="navbar-search-block">
-          <form class="form-inline">
-            <div class="input-group input-group-sm">
-              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-              <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
-                  <i class="fas fa-search"></i>
-                </button>
-                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
+        <span class="nav-link">Sistem Informasi Klinik Gizi</span>
       </li>
-
+      <li class="nav-item">
+        <a class="nav-link" href="logout.php" role="button">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+      </li>
     </ul>
   </nav>
-  <!-- /.navbar -->
-
-  <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
     <a href="index.php" class="brand-link">
-      <img src="dist/img/franco1.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <img src="dist/img/AdminLTELogo.png" alt="Logo Klinik Gizi" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">Klinik Gizi</span>
     </a>
-
-    <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="dist/img/franco1.png" class="img-circle elevation-2" alt="User Image">
+          <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block"><?php echo $_SESSION['Username']; ?></a>
+          <a href="#" class="d-block"><?= htmlspecialchars($_SESSION['username']); ?></a>
         </div>
       </div>
-
-      <!-- SidebarSearch Form -->
       <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
           <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
           <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
+            <button class="btn btn-sidebar"><i class="fas fa-search fa-fw"></i></button>
           </div>
         </div>
       </div>
-
-      <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          
-          <!-- MASTER MENU -->
-          <li class="nav-item <?php echo (isset($_GET['page']) && in_array($_GET['page'], ['guru','siswa','mapel','kelas','profil_guru','kelas_guru','jadwal_guru','profil_siswa','jadwal_siswa'])) ? 'menu-open' : ''; ?>">
-            <a href="#" class="nav-link <?php echo (isset($_GET['page']) && in_array($_GET['page'], ['guru','siswa','mapel','kelas','profil_guru','kelas_guru','jadwal_guru','profil_siswa','jadwal_siswa'])) ? 'active' : ''; ?>">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>Master <i class="right fas fa-angle-left"></i></p>
-            </a>
-
-            <?php if ($role == 'admin') : ?>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="index.php?page=guru" class="nav-link <?php echo (isset($_GET['page']) && $_GET['page'] == 'guru') ? 'active' : ''; ?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Guru</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="index.php?page=siswa" class="nav-link <?php echo (isset($_GET['page']) && $_GET['page'] == 'siswa') ? 'active' : ''; ?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Siswa</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="index.php?page=mapel" class="nav-link <?php echo (isset($_GET['page']) && $_GET['page'] == 'mapel') ? 'active' : ''; ?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Mata Pelajaran</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="index.php?page=ekstra2511500010" class="nav-link <?php echo (isset($_GET['page']) && $_GET['page'] == 'ekstra2511500010') ? 'active' : ''; ?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Ekstrakurikuler</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="index.php?page=kelas" class="nav-link <?php echo (isset($_GET['page']) && $_GET['page'] == 'kelas') ? 'active' : ''; ?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Kelas</p>
-                </a>
-              </li>
-            </ul>
-            <?php endif; ?>   
-
-            <?php if ($role == 'guru') : ?>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="index.php?page=profil_guru" class="nav-link <?php echo (isset($_GET['page']) && $_GET['page'] == 'profil_guru') ? 'active' : ''; ?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Profil</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="index.php?page=kelas_guru" class="nav-link <?php echo (isset($_GET['page']) && $_GET['page'] == 'kelas_guru') ? 'active' : ''; ?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Kelas</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="index.php?page=jadwal_guru" class="nav-link <?php echo (isset($_GET['page']) && $_GET['page'] == 'jadwal_guru') ? 'active' : ''; ?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Jadwal</p>
-                </a>
-              </li>
-            </ul>
-            <?php endif; ?>            
-
-            <?php if ($role == 'siswa') : ?>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="index.php?page=profil_siswa" class="nav-link <?php echo (isset($_GET['page']) && $_GET['page'] == 'profil_siswa') ? 'active' : ''; ?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Profil</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="index.php?page=jadwal_siswa" class="nav-link <?php echo (isset($_GET['page']) && $_GET['page'] == 'jadwal_siswa') ? 'active' : ''; ?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Jadwal</p>
-                </a>
-              </li>
-            </ul>
-            <?php endif; ?> 
-          </li>
-
-          <!-- TRANSAKSI MENU - SUDAH DIPERBAIKI -->
-          <li class="nav-item <?php echo (isset($_GET['page']) && ($_GET['page'] == 'jadwal' || $_GET['page'] == 'tambah_jadwal')) ? 'menu-open' : ''; ?>">
-            <a href="#" class="nav-link <?php echo (isset($_GET['page']) && ($_GET['page'] == 'jadwal' || $_GET['page'] == 'tambah_jadwal')) ? 'active' : ''; ?>">
-              <i class="nav-icon fas fa-chart-line"></i>
-              <p>Transaksi <i class="right fas fa-angle-left"></i></p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="index.php?page=jadwal" class="nav-link <?php echo (isset($_GET['page']) && $_GET['page'] == 'jadwal') ? 'active' : ''; ?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Jadwal</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-
-          <!-- LOGOUT -->
           <li class="nav-item">
-            <a href="logout.php" class="nav-link">
-              <i class="nav-icon fas fa-sign-out-alt"></i>
-              <p>Logout</p>
+            <a href="index.php" class="nav-link <?= navActive(''); ?>">
+              <i class="nav-icon fas fa-home"></i>
+              <p>Dashboard</p>
             </a>
           </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link <?= in_array($page, ['guru','siswa','program_diet','monitoring_gizi','jadwal_konsultasi']) ? 'active' : '' ?>">
+              <i class="nav-icon fas fa-database"></i>
+              <p>Master Data<i class="right fas fa-angle-left"></i></p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item"><a href="index.php?page=ahli_gizi" class="nav-link <?= navActive('ahli_gizi'); ?>"><i class="far fa-circle nav-icon"></i><p>Data Ahli Gizi</p></a></li>
+              <li class="nav-item"><a href="index.php?page=pasien" class="nav-link <?= navActive('pasien'); ?>"><i class="far fa-circle nav-icon"></i><p>Data Pasien</p></a></li>
+              <li class="nav-item"><a href="index.php?page=jadwal_konsultasi" class="nav-link <?= navActive('jadwal_konsultasi'); ?>"><i class="far fa-circle nav-icon"></i><p>Data Jadwal Konsultasi</p></a></li>
+              <li class="nav-item"><a href="index.php?page=program_diet" class="nav-link <?= navActive('program_diet'); ?>"><i class="far fa-circle nav-icon"></i><p>Data Program Diet</p></a></li>
+              <li class="nav-item"><a href="index.php?page=monitoring_gizi" class="nav-link <?= navActive('monitoring_gizi'); ?>"><i class="far fa-circle nav-icon"></i><p>Monitoring Gizi</p></a></li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link <?= $page === 'ganti_password' ? 'active' : '' ?>">
+              <i class="nav-icon fas fa-cogs"></i>
+              <p>Pengaturan<i class="right fas fa-angle-left"></i></p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item"><a href="index.php?page=ganti_password" class="nav-link <?= navActive('ganti_password'); ?>"><i class="far fa-circle nav-icon"></i><p>Profil Klinik</p></a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a href="logout.php" class="nav-link"><i class="nav-icon fas fa-sign-out-alt"></i><p>Logout</p></a></li>
         </ul>
       </nav>
-      <!-- /.sidebar-menu -->
     </div>
-    <!-- /.sidebar -->
   </aside>
-
-  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">
-              <?php 
-                if(isset($_GET['page'])) {
-                  $page_title = $_GET['page'];
-                  echo ucfirst($page_title);
-                } else {
-                  echo "Dashboard";
-                }
-              ?>
-            </h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-              <li class="breadcrumb-item active">
-                <?php 
-                  if(isset($_GET['page'])) {
-                    echo ucfirst($_GET['page']);
-                  } else {
-                    echo "Dashboard";
-                  }
-                ?>
-              </li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
-    <div class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-12">
-            <?php
-              if (isset($_GET['page'])) {
-                $page = $_GET['page'];
-              } else {
-                $page = "";
-              }
-              if ($page == "") {
-                include "page/dashboard.php";
-              } elseif (!file_exists("page/$page.php")) {
-                echo '<div class="alert alert-danger">File Halaman Tidak Ditemukan: page/' . $page . '.php</div>';
-              } else {
-                include "page/$page.php";
-              }
-            ?>
-          </div>
-          <!-- /.col-md-6 -->
+          <div class="col-sm-6"><h1 class="m-0">Sistem Informasi Klinik Gizi</h1></div>
+          <div class="col-sm-6"><ol class="breadcrumb float-sm-right"><li class="breadcrumb-item"><a href="index.php">Home</a></li><li class="breadcrumb-item active"><?= $page === '' ? 'Dashboard' : ucfirst(str_replace('_', ' ', $page)); ?></li></ol></div>
         </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
+      </div>
     </div>
-    <!-- /.content -->
+    <div class="content"><div class="container-fluid"><?php if ($page == "") { include "page/dashboard.php"; } elseif (!file_exists("page/$page.php")) { echo "<div class=\"alert alert-danger\">File Tidak Ditemukan</div>"; } else { include "page/$page.php"; } ?></div></div>
   </div>
-  <!-- /.content-wrapper -->
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-    <div class="p-3">
-      <h5>Title</h5>
-      <p>Sidebar content</p>
-    </div>
-  </aside>
-  <!-- /.control-sidebar -->
-
-  <!-- Main Footer -->
-  <footer class="main-footer">
-    <!-- To the right -->
-    <div class="float-right d-none d-sm-inline">
-      Anything you want
-    </div>
-    <!-- Default to the left -->
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
-  </footer>
+  <aside class="control-sidebar control-sidebar-dark"><div class="p-3"><h5>Info</h5><p>Sistem Klinik Gizi</p></div></aside>
+  <footer class="main-footer"><div class="float-right d-none d-sm-inline">Klinik Gizi</div><strong>&copy; 2026 Sistem Informasi Klinik Gizi.</strong> Semua hak dilindungi.</footer>
 </div>
-<!-- ./wrapper -->
-
-<!-- REQUIRED SCRIPTS -->
-
-<!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 </body>
 </html>
-<?php
-  } else {
-    echo"<meta http-equiv='refresh' content='0; url=login.php'>";
-  }
-?>
+<?php } else { echo "<meta http-equiv='refresh' content='0; url=login.php'>"; } ?>
